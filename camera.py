@@ -1,5 +1,6 @@
 import cv2
 from streamable import Streamable
+import numpy as np
 
 class VideoCamera(Streamable):
     def __init__(self, camera_index):
@@ -12,5 +13,8 @@ class VideoCamera(Streamable):
 
     def get_frame(self):
         success, image = self.__video.read()
-        ret, jpeg = cv2.imencode('.jpg', image)
-        return jpeg.tobytes(), image
+        try:
+            ret, jpeg = cv2.imencode('.jpg', image)
+            return jpeg.tobytes(), image
+        except:
+            return None, None
